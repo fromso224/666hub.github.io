@@ -1,0 +1,1613 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    overflow: hidden; /* Hide scrollbars during effects */
+    transition: filter 0.5s ease-in-out; /* For freeze effect */
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+#user-info {
+    font-size: 0.9em;
+}
+
+#main-content {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    gap: 20px;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+#left-panel {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Spacing between update banner and chat */
+}
+
+#chat-container {
+    /* flex: 3; */ /* Removed as #left-panel now controls this flex */
+    flex-grow: 1; /* Chat container should take remaining space in left panel */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Contained scrolling */
+}
+
+#chat-container h2, #shop-container h2 {
+    margin: 0;
+    padding: 15px;
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.2em;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column; /* Stack messages */
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+    background-color: #e1f5fe; /* Light blue for messages */
+    align-self: flex-start; /* Default alignment */
+}
+
+.message.own-message {
+    background-color: #c8e6c9; /* Light green for own messages */
+    align-self: flex-end; /* Align own messages to the right */
+}
+
+.message-author {
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #555;
+    margin-bottom: 3px;
+}
+
+.message-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Ensure z-index works for children */
+    z-index: 2; /* Keep content above pseudo-elements */
+}
+
+.like-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.1em; /* Slightly larger for emoji */
+    padding: 0 5px; /* Adjust padding */
+    color: #888;
+    transition: color 0.2s;
+    position: relative; /* Ensure z-index works */
+    z-index: 3; /* Keep above other content */
+    line-height: 1; /* Prevent extra space */
+}
+
+.like-button.liked {
+    color: #e91e63; /* Pink when liked */
+}
+
+.like-button:hover:not(:disabled) {
+    color: #555;
+}
+
+.like-count {
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 3px; /* Adjust spacing */
+    position: relative; /* Ensure z-index works */
+    z-index: 3; /* Keep above other content */
+}
+
+#chat-input-area {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+
+#chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+#send-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#send-button:hover {
+    background-color: #45a049;
+}
+
+#chat-input:disabled, #send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#send-button:disabled:hover {
+    background-color: #4CAF50; /* Prevent hover effect when disabled */
+}
+
+#shop-container {
+    flex: 1;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding-bottom: 15px;
+}
+
+#shop-container p {
+    padding: 0 15px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.shop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.shop-item:last-child {
+    border-bottom: none;
+}
+
+.shop-item span {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.shop-item button {
+    padding: 8px 12px;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.shop-item button:hover {
+    background-color: #f57c00;
+}
+
+.shop-item button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#shop-events {
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: calc(100% - 100px); /* Adjust to use full height of shop container */
+    height: 100%; /* Ensure it takes full height */
+    padding-bottom: 20px; /* Add some padding at the bottom for better scrolling experience */
+}
+
+#shop-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.shop-tab {
+    padding: 8px 15px;
+    background-color: #f5f5f5;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.shop-tab:hover {
+    background-color: #e9e9e9;
+}
+
+.shop-tab.active {
+    border-bottom: 2px solid #4a90e2;
+    background-color: white;
+    font-weight: bold;
+}
+
+#shop-skins {
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: calc(100% - 100px); /* Adjust to use full height of shop container */
+    height: 100%; /* Ensure it takes full height */
+    padding-bottom: 20px; /* Add some padding at the bottom for better scrolling experience */
+}
+
+/* --- Skin Styles --- */
+.message.skin-default {
+    /* Already styled by .message defaults */
+}
+
+.message.skin-rainbow {
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 400%;
+    animation: rainbow-bg 5s ease infinite;
+    color: white; /* Ensure text is readable */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.message.skin-rainbow .message-author {
+    color: #eee; /* Lighter author color */
+}
+
+.message.skin-rainbow .like-button {
+    color: #f0f0f0; /* Light gray like button */
+    text-shadow: none;
+    z-index: 3;
+}
+
+.message.skin-rainbow .like-button.liked {
+    color: #ffff00; /* Yellow when liked */
+}
+
+.message.skin-rainbow .like-count {
+     color: #f0f0f0;
+     z-index: 3;
+}
+
+/* Acid Skin */
+.message.skin-acid {
+    background: linear-gradient(135deg, #a3ff00, #00ff9d, #00ffae, #a3ff00);
+    background-size: 300% 300%;
+    animation: acid-bg 8s ease infinite;
+    color: #000; 
+    text-shadow: 0 0 2px rgba(255,255,255,0.8);
+    border: 1px solid rgba(163, 255, 0, 0.5);
+    box-shadow: 0 0 8px rgba(163, 255, 0, 0.7);
+    position: relative;
+    overflow: visible; /* Change from hidden to visible */
+    padding: 12px; /* Increase padding to accommodate overlay */
+}
+
+.message.skin-acid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0,0,0,0.1) 2px, transparent 3px),
+        radial-gradient(circle at 70% 30%, rgba(0,0,0,0.1) 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(0,0,0,0.1) 3px, transparent 4px);
+    background-size: 20px 20px;
+    animation: acid-bubbles 10s linear infinite;
+    opacity: 0.3; /* Reduce opacity to improve readability */
+    pointer-events: none;
+    z-index: 1; /* Ensure it's above the text */
+}
+
+.message.skin-acid .message-author {
+    color: #003300;
+}
+
+.message.skin-acid .like-button {
+    color: #003300;
+    text-shadow: none;
+    z-index: 3;
+}
+
+.message.skin-acid .like-button.liked {
+    color: #ff00ff;
+}
+
+.message.skin-acid .like-count {
+    color: #003300;
+    z-index: 3;
+}
+
+@keyframes acid-bg {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+@keyframes acid-bubbles {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+
+@keyframes rainbow-bg {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* --- Starry Skin --- */
+.message.skin-starry {
+    background: linear-gradient(180deg, #0b102a, #1a234d);
+    color: #f0f0f0;
+    position: relative;
+    overflow: visible; /* Ensure content is visible */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    border: 1px solid #4a5c94;
+    box-shadow: 0 0 8px rgba(74, 92, 148, 0.5);
+    padding: 12px; /* Increase padding to accommodate overlay */
+}
+
+.message.skin-starry::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* Wider to allow movement */
+    height: 200%; /* Taller to allow movement */
+    background-image:
+        radial-gradient(circle at 10% 20%, white 1px, transparent 1px),
+        radial-gradient(circle at 30% 50%, white 0.5px, transparent 0.5px),
+        radial-gradient(circle at 50% 80%, white 1.5px, transparent 1.5px),
+        radial-gradient(circle at 75% 30%, white 1px, transparent 1px),
+        radial-gradient(circle at 90% 60%, white 0.5px, transparent 0.5px),
+        radial-gradient(circle at 5% 90%, white 1px, transparent 1px),
+        radial-gradient(circle at 60% 10%, white 1.5px, transparent 1.5px);
+    background-size: 100px 100px; /* Adjust density */
+    opacity: 0.5; /* Reduced opacity to improve text visibility */
+    animation: starry-twinkle 20s linear infinite;
+    z-index: 0; /* Behind text */
+    pointer-events: none; /* Ensure stars don't interfere with interactions */
+}
+
+.message.skin-starry .message-author,
+.message.skin-starry span {
+    z-index: 2; /* Ensure text is always on top */
+    position: relative;
+    color: #f0f0f0; /* Bright white for better readability */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Slight shadow for contrast */
+}
+
+.message.skin-starry .message-author {
+    color: #a0a9d4;
+}
+
+.message.skin-starry .like-button {
+    color: #b0c4de;
+    text-shadow: none;
+    z-index: 3; /* Ensure like button is on top of all other elements */
+    position: relative; /* Allow z-index to work */
+    cursor: pointer; /* Show it's clickable */
+}
+
+.message.skin-starry .like-button:not(:disabled) {
+    opacity: 1; /* Ensure full visibility */
+}
+
+.message.skin-starry .like-button.liked {
+    color: #ffd700; /* Gold when liked */
+}
+
+.message.skin-starry .like-count {
+    color: #a0a9d4;
+    z-index: 3; /* Ensure like count is also visible */
+    position: relative;
+}
+
+@keyframes starry-twinkle {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-50px, -50px); } /* Slow drift */
+}
+
+/* --- Floody Skin --- */
+.message.skin-floody {
+    background: linear-gradient(0deg, #4dabf7, #1971c2, #4dabf7);
+    background-size: 100% 300%;
+    animation: floody-bg 6s linear infinite;
+    color: #f8f9fa; /* Light text for contrast */
+    border: 1px solid #1864ab;
+    box-shadow: 0 2px 5px rgba(25, 113, 194, 0.4);
+    position: relative;
+    overflow: visible; /* Ensure content is visible */
+    padding: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.message.skin-floody::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
+    background-size: 30px 30px;
+    animation: floody-waves 4s linear infinite;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.message.skin-floody .message-author {
+    color: #d0ebff; /* Lighter blue for author */
+    position: relative;
+    z-index: 1;
+}
+
+.message.skin-floody .like-button {
+    color: #e7f5ff;
+    text-shadow: none;
+    z-index: 3;
+}
+
+.message.skin-floody .like-button.liked {
+    color: #ffec99; /* Light yellow when liked */
+}
+
+.message.skin-floody .like-count {
+    position: relative;
+    z-index: 3;
+    color: #e7f5ff;
+}
+
+/* --- Barn Run Skin --- */
+.message.skin-barn-run {
+    background: linear-gradient(to right, #90EE90, #98FB98);
+    color: #006400; 
+    border: 2px solid #3CB371;
+    position: relative;
+    overflow: visible; 
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(60, 179, 113, 0.4);
+}
+
+.message.skin-barn-run::before {
+    content: '🐄🐖🐔🐎🐑🐐🦙'; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 28px; 
+    text-align: center;
+    letter-spacing: 15px; 
+    opacity: 0.5; 
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden; 
+    flex-wrap: wrap; 
+    line-height: 1.2; 
+}
+
+.message.skin-barn-run .message-author {
+    color: #006400; 
+    position: relative;
+    z-index: 1;
+    text-shadow: 1px 1px 1px white; 
+}
+
+.message.skin-barn-run .like-button {
+    color: #006400; 
+    z-index: 3;
+    text-shadow: 1px 1px 1px white; 
+}
+
+.message.skin-barn-run .like-button.liked {
+    color: #FF4500; 
+}
+
+.message.skin-barn-run .like-count {
+    position: relative;
+    z-index: 3;
+    color: #006400; 
+    text-shadow: 1px 1px 1px white; 
+}
+
+/* --- Lava Skin --- */
+.message.skin-lava {
+    background: linear-gradient(135deg, #ff6f00, #ff3d00, #ff5722, #ff6f00);
+    background-size: 300% 300%;
+    animation: lava-bg 10s ease infinite;
+    color: #000; 
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 111, 0, 0.5);
+    box-shadow: 0 0 8px rgba(255, 111, 0, 0.7);
+    position: relative;
+    overflow: visible; 
+    padding: 12px;
+}
+
+.message.skin-lava::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 30% 60%, rgba(255, 0, 0, 0.2) 2px, transparent 3px),
+        radial-gradient(circle at 60% 40%, rgba(255, 0, 0, 0.2) 1px, transparent 2px),
+        radial-gradient(circle at 50% 85%, rgba(255, 0, 0, 0.2) 3px, transparent 4px);
+    background-size: 25px 25px;
+    animation: lava-bubbles-anim 8s linear infinite;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1; /* Below text */
+}
+
+.message.skin-lava .message-author {
+    color: #330000;
+}
+
+.message.skin-lava .like-button {
+    color: #330000;
+    text-shadow: none;
+    z-index: 3;
+}
+
+.message.skin-lava .like-button.liked {
+    color: #ffff00; /* Yellow when liked */
+}
+
+.message.skin-lava .like-count {
+    color: #330000;
+    z-index: 3;
+}
+
+@keyframes lava-bg {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+@keyframes lava-bubbles-anim {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-25px); }
+}
+
+/* --- Event Effects --- */
+/* --- Nuke Effect (Updated) --- */
+#nuke-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0;
+    z-index: 101;
+    pointer-events: none;
+}
+
+#nuke-explosion {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80vmin; 
+    height: 80vmin;
+    transform: translate(-50%, -50%);
+    z-index: 102;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#nuke-explosion svg circle {
+    animation: nuke-explosion-anim 0.8s ease-out forwards;
+}
+
+#nuke-smoke {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 165, 0, 0.85) 0%, rgba(210, 105, 30, 0.9) 50%, rgba(139, 69, 19, 0.95) 100%);
+    opacity: 0;
+    z-index: 103; 
+    pointer-events: none;
+    mix-blend-mode: multiply; 
+}
+
+body.nuke-active #nuke-flash {
+    display: block !important;
+    animation: nuke-flash-anim 0.5s ease-out;
+}
+
+body.nuke-active #nuke-explosion {
+    display: block !important;
+    opacity: 1; 
+}
+
+body.nuke-active #nuke-smoke {
+    display: block !important;
+    animation: nuke-smoke-anim 10s ease-out forwards;
+}
+
+body.nuke-active {
+    animation: nuke-shake-anim 0.8s ease-out;
+}
+
+@keyframes nuke-flash-anim {
+    0% { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+
+@keyframes nuke-explosion-anim {
+    0% { r: 5; fill: yellow; opacity: 1;}
+    50% { r: 100; fill: red; opacity: 0.8;} 
+    100% { r: 120; fill: orange; opacity: 0;}
+}
+
+@keyframes nuke-smoke-anim {
+    0% { opacity: 0; transform: scale(0.5); }
+    10% { opacity: 0.95; transform: scale(1.1); } 
+    90% { opacity: 0.8; transform: scale(1); } 
+    100% { opacity: 0; transform: scale(1); } 
+}
+
+@keyframes nuke-shake-anim {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-8px, -6px) rotate(-1deg); }
+    20% { transform: translate(6px, 8px) rotate(1deg); }
+    30% { transform: translate(-7px, 5px) rotate(0.5deg); }
+    40% { transform: translate(5px, -7px) rotate(-0.5deg); }
+    50% { transform: translate(-8px, -6px) rotate(-1deg); }
+    60% { transform: translate(6px, 8px) rotate(1deg); }
+    70% { transform: translate(-7px, 5px) rotate(0.5deg); }
+    80% { transform: translate(5px, -7px) rotate(-0.5deg); }
+    90% { transform: translate(-8px, -6px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* --- Glitch Effect --- */
+body.glitch-active {
+    transform: rotate(180deg);
+    animation: glitch-effect-anim 10s linear forwards;
+}
+
+@keyframes glitch-effect-anim {
+  0%, 100% { 
+    transform: rotate(180deg) translate(0);
+    filter: none;
+    text-shadow: none;
+  }
+  2%, 18%, 35%, 55%, 72%, 90% {
+    transform: rotate(180deg) translate(var(--glitch-x, -5px), var(--glitch-y, 4px));
+    filter: hue-rotate(20deg) contrast(1.2);
+    text-shadow: 3px 3px #f0f, -3px -3px #0ff;
+  }
+  4%, 20%, 40%, 60%, 80%, 95% {
+    transform: rotate(180deg) translate(var(--glitch-x, 4px), var(--glitch-y, -5px));
+    filter: hue-rotate(340deg) saturate(0.7);
+    text-shadow: -3px 3px #0ff, 3px -3px #f0f;
+  }
+  6%, 22%, 42%, 64%, 85%, 98% { 
+     transform: rotate(180deg) translate(var(--glitch-x, 1px), var(--glitch-y, -1px));
+     filter: brightness(1.1);
+     text-shadow: none;
+  }
+}
+
+/* --- Flood Effect --- */
+#flood-water {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0; 
+    background: linear-gradient(to top, rgba(0, 120, 255, 0.7), rgba(0, 180, 255, 0.5));
+    z-index: 99; 
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in; 
+}
+
+#flood-water::before { 
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 200%; 
+    height: 30px;
+    background: radial-gradient(ellipse at center top, white 5px, transparent 5px),
+                radial-gradient(ellipse at center top, rgba(0, 180, 255, 0.5) 10px, transparent 10px);
+    background-size: 40px 20px;
+    background-position: 0 0;
+    animation: flood-wave-anim 2s linear infinite;
+    opacity: 0.6;
+}
+
+body.flood-active #flood-water {
+    display: block !important;
+    opacity: 1;
+    animation: flood-fill-anim 15s linear forwards;
+}
+
+@keyframes flood-fill-anim {
+    0% { height: 0%; }
+    40% { height: 85%; } 
+    60% { height: 80%; } 
+    90% { height: 75%; } 
+    100% { height: 0%; } 
+}
+
+@keyframes flood-wave-anim {
+    0% { background-position: 0 0; }
+    100% { background-position: -80px 0; } 
+}
+
+/* --- Freeze Effect --- */
+#freeze-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(173, 216, 230, 0.5); 
+    backdrop-filter: blur(4px) grayscale(60%);
+    -webkit-backdrop-filter: blur(4px) grayscale(60%); 
+    z-index: 105; 
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    border: 5px solid rgba(255, 255, 255, 0.7); 
+    box-sizing: border-box;
+}
+
+body.freeze-active #freeze-overlay {
+    display: block !important;
+    opacity: 1;
+}
+
+/* Optional: Stop animations on content below */
+body.freeze-active * {
+   /* animation-play-state: paused !important;  might be too aggressive */
+}
+
+/* --- Acid Effect --- */
+#acid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 106;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.acid-liquid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to bottom, rgba(163, 255, 0, 0.7), rgba(0, 255, 157, 0.7));
+    animation: acid-fill-anim 10s ease-out forwards;
+}
+
+.acid-scratches {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(45deg, transparent 45%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.2) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.2) 55%, transparent 55%),
+        linear-gradient(90deg, transparent 45%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.2) 55%, transparent 55%),
+        linear-gradient(0deg, transparent 45%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.2) 55%, transparent 55%);
+    background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px;
+    opacity: 0;
+    animation: acid-scratches-anim 10s ease-out forwards;
+}
+
+body.acid-active #acid-overlay {
+    display: block !important;
+}
+
+body.acid-active {
+    animation: acid-screen-warp 10s ease-out;
+}
+
+@keyframes acid-fill-anim {
+    0% { height: 0%; opacity: 0; }
+    20% { height: 100%; opacity: 0.9; }
+    50% { height: 100%; opacity: 0.9; }
+    70% { height: 0%; opacity: 0; }
+    100% { height: 0%; opacity: 0; }
+}
+
+@keyframes acid-scratches-anim {
+    0% { opacity: 0; }
+    60% { opacity: 0; }
+    70% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { opacity: 0; }
+}
+
+@keyframes acid-screen-warp {
+    0% { filter: none; }
+    20% { filter: hue-rotate(120deg) contrast(1.5); }
+    50% { filter: hue-rotate(120deg) contrast(1.5); }
+    70% { filter: hue-rotate(0deg) contrast(1.2); }
+    90% { filter: hue-rotate(0deg) contrast(1.2); }
+    100% { filter: none; }
+}
+
+/* --- Shark Attack Effect --- */
+#shark-attack-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 104; 
+    pointer-events: none;
+    overflow: hidden; 
+}
+
+.shark-water {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 50, 100, 0.85), rgba(0, 100, 180, 0.75));
+    opacity: 0;
+    animation: shark-water-fill-anim 10s ease-out forwards;
+}
+
+.shark {
+    position: absolute;
+    width: 150px; 
+    height: auto;
+    opacity: 0.9;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.4));
+    animation-name: swim;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.shark1 {
+    top: 20%;
+    left: -160px; 
+    animation-duration: 8s;
+    animation-delay: 0s;
+}
+
+.shark2 {
+    top: 60%;
+    left: -180px; 
+    transform: scaleX(-1); 
+    animation-duration: 12s;
+    animation-delay: 2s;
+    animation-name: swim-rtl; 
+}
+
+.shark3 {
+    top: 45%;
+    left: -150px; 
+    animation-duration: 10s;
+    animation-delay: 4s;
+}
+
+body.shark-active #shark-attack-overlay {
+    display: block !important;
+    opacity: 1;
+    animation: shark-attack-fade-out 10s linear forwards; 
+}
+
+body.shark-active .shark-water {
+    opacity: 1;
+}
+
+@keyframes shark-water-fill-anim {
+    0% { height: 0%; opacity: 0; }
+    10% { height: 100%; opacity: 0.8; }
+    90% { height: 100%; opacity: 0.8; }
+    100% { height: 100%; opacity: 0; } 
+}
+
+@keyframes swim {
+    0% { transform: translateX(0) translateY(0px) rotate(-2deg); }
+    50% { transform: translateX(calc(100vw + 160px)) translateY(10px) rotate(2deg); } 
+    100% { transform: translateX(calc(100vw + 160px)) translateY(0px) rotate(-2deg); } 
+}
+
+@keyframes swim-rtl { 
+    0% { transform: scaleX(-1) translateX(0) translateY(0px) rotate(-2deg); }
+    50% { transform: scaleX(-1) translateX(calc(100vw + 180px)) translateY(-10px) rotate(2deg); }
+    100% { transform: scaleX(-1) translateX(calc(100vw + 180px)) translateY(0px) rotate(-2deg); }
+}
+
+@keyframes shark-attack-fade-out { 
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* --- Money Drop Coin Effect --- */
+.coin-shower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 200; 
+    overflow: hidden;
+}
+
+.coin {
+    position: absolute;
+    top: -50px; 
+    width: 20px;
+    height: 20px;
+    background-color: gold;
+    border-radius: 50%;
+    border: 2px solid darkgoldenrod;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    /* animation-duration set in JS for variation */
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards; /* Keep final state */
+    opacity: 0.9;
+}
+
+.coin::before { 
+    content: '$';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: darkgoldenrod;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotateZ(0deg);
+        opacity: 1;
+    }
+     90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotateZ(720deg); 
+        opacity: 0;
+    }
+}
+
+/* System message styling */
+.message.system-message {
+    font-style: italic;
+    color: #666;
+    background-color: #f5f5f5; 
+    border: 1px dashed #ccc;
+    align-self: center; 
+    max-width: 90%;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.message.system-message .like-button,
+.message.system-message .like-count {
+    display: none; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+#event-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100; 
+    pointer-events: none; 
+}
+
+/* --- Shooting Star Effect --- */
+#shooting-star-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 107; /* Above other effects but below UI potentially */
+    pointer-events: none;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, rgba(0, 0, 10, 0.3), rgba(0, 0, 30, 0.5)); /* Darker background */
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+body.shooting-star-active #shooting-star-overlay {
+    display: block !important;
+    opacity: 1;
+    animation: shooting-star-fade-out 10s linear forwards; /* Fade out overlay itself */
+}
+
+.shooting-star {
+    position: absolute;
+    opacity: 0;
+}
+
+@keyframes shoot-emoji {
+    0% {
+        opacity: 1;
+        transform: translateX(0) translateY(0) rotate(45deg) scale(1);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(150vw) translateY(150vh) rotate(45deg) scale(0.5);
+    }
+}
+
+@keyframes shooting-star-fade-out {
+     0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* --- Raining Event --- */
+#raining-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 108; /* Ensure it's high enough */
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+body.raining-active #raining-overlay {
+    display: block !important;
+    opacity: 1;
+}
+
+#rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.raindrop {
+    position: absolute;
+    bottom: 100%; /* Start above the screen */
+    width: 1px;
+    height: 60px; /* Length of the rain streak */
+    background: linear-gradient(to bottom, rgba(173, 216, 230, 0), rgba(173, 216, 230, 0.7)); /* Light blue, transparent at top */
+    animation-name: fall-rain;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+}
+
+#rising-water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* Starts at 0 height */
+    background: linear-gradient(to top, rgba(0, 120, 255, 0.6), rgba(0, 180, 255, 0.4));
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.raining-active #rising-water {
+    animation: rise-and-fall-water 20s linear forwards;
+    opacity: 1; /* Make visible when active */
+}
+
+@keyframes fall-rain {
+    to {
+        transform: translateY(100vh); /* Fall down the full height */
+    }
+}
+
+@keyframes rise-and-fall-water {
+    0% { height: 0%; opacity: 0.8;}
+    80% { height: 50%; opacity: 0.8;} /* Rise to 50% over 16s (80% of 20s) */
+    90% { height: 50%; opacity: 0.8;} /* Hold for 2s */
+    100% { height: 0%; opacity: 0; } /* Fall back down in 2s */
+}
+
+/* --- Crate Reward Overlay --- */
+#crate-reward-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    transition: opacity 0.3s ease;
+}
+
+#crate-reward-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+    animation: reward-shine 2s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+#crate-reward-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(45deg);
+    animation: reward-shine-sweep 2s ease-in-out infinite;
+    z-index: -1;
+}
+
+#crate-reward-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#crate-reward-item {
+    font-size: 32px;
+    margin: 15px 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    border: 2px dashed gold;
+}
+
+.reward-coins {
+    color: gold;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.reward-skin {
+    color: #8B4513;
+}
+
+.reward-event {
+    color: #3CB371;
+}
+
+.reward-rare {
+    color: #9932CC;
+    animation: pulse-reward 1.5s ease infinite;
+}
+
+@keyframes reward-shine {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+    }
+}
+
+@keyframes reward-shine-sweep {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+@keyframes pulse-reward {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Crate Shop Placeholder */
+#shop-crates p.no-crates-message {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+    padding: 20px 15px;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+/* Ensure original crate shop item text is hidden if no crates are specifically added */
+#shop-crates > p:first-of-type {
+    display: block; /* Show the "Try your luck..." message */
+}
+
+/* Hide the specific farm crate item */
+#shop-crates .shop-item.crate-item {
+    display: none;
+}
+
+/* --- Lava Effect --- */
+#lava-overlay {
+    position: fixed;
+    bottom: 0; /* Start from bottom */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 109; /* Adjust z-index as needed */
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.lava-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* Start at 0 height */
+    background: linear-gradient(to top, rgba(255, 111, 0, 0.9), rgba(255, 50, 0, 0.8));
+    box-shadow: 0 -10px 20px rgba(255, 50, 0, 0.5);
+}
+
+.lava-bubbles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 0, 0.2) 3px, transparent 4px),
+        radial-gradient(circle at 70% 90%, rgba(255, 255, 0, 0.2) 2px, transparent 3px),
+        radial-gradient(circle at 40% 70%, rgba(255, 255, 0, 0.2) 4px, transparent 5px);
+    background-size: 50px 50px;
+    animation: lava-overlay-bubbles 5s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.lava-active #lava-overlay {
+    display: block !important;
+    opacity: 1;
+}
+
+body.lava-active .lava-liquid {
+    animation: lava-rise-anim 10s linear forwards;
+}
+body.lava-active .lava-bubbles {
+     animation: lava-rise-anim 10s linear forwards, lava-overlay-bubbles 5s linear infinite;
+     opacity: 0.5;
+}
+
+@keyframes lava-rise-anim {
+    0% { height: 0%; opacity: 0.8; }
+    80% { height: 80%; opacity: 0.9; }
+    90% { height: 80%; opacity: 0.9; }
+    100% { height: 0%; opacity: 0; }
+}
+
+@keyframes lava-overlay-bubbles {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50px); }
+}
+
+/* --- Gold Skin (Renamed from Coin Skin) --- */
+.message.skin-gold {
+    background: radial-gradient(circle, #ffd700 20%, #f0c000 80%);
+    color: #4a3000; /* Dark brown for text */
+    border: 2px solid #daa520; /* Goldenrod border */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    position: relative;
+    overflow: visible;
+    padding: 12px;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.message.skin-gold::before {
+    content: '💰🪙💲'; /* Coin and money bag emojis */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    text-align: center;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    animation: coin-shine-anim 5s linear infinite alternate; /* Re-using coin-shine-anim for gold */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    line-height: 1.2;
+}
+
+.message.skin-gold .message-author {
+    color: #805500;
+    position: relative;
+    z-index: 1;
+}
+
+.message.skin-gold .like-button {
+    color: #805500;
+    z-index: 3;
+}
+.message.skin-gold .like-button.liked {
+    color: #ff4500; /* Orange-red for liked */
+}
+.message.skin-gold .like-count {
+    color: #805500;
+    position: relative;
+    z-index: 3;
+}
+
+@keyframes coin-shine-anim { /* Used by Gold Skin */
+    0% { opacity: 0.1; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.25; transform: scale(1.05) rotate(5deg); }
+    100% { opacity: 0.1; transform: scale(1) rotate(0deg); }
+}
+
+/* --- Dollar Bill Skin --- */
+.message.skin-dollarbill {
+    background: linear-gradient(135deg, #38761d 0%, #6aa84f 50%, #38761d 100%);
+    color: #f0fff0; /* Honeydew for text */
+    border: 2px solid #274e13; /* Darker green border */
+    box-shadow: 0 0 10px rgba(0, 100, 0, 0.5);
+    position: relative;
+    overflow: hidden; /* Clip the waving bills */
+    padding: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.message.skin-dollarbill::before,
+.message.skin-dollarbill::after {
+    content: '💵';
+    position: absolute;
+    font-size: 36px; 
+    opacity: 0.3; 
+    z-index: 0;
+    animation: wave-dollar-anim 6s linear infinite;
+}
+
+.message.skin-dollarbill::before {
+    top: 10%;
+    left: -10%;
+    transform: rotate(-15deg);
+}
+
+.message.skin-dollarbill::after {
+    bottom: 10%;
+    right: -10%;
+    transform: rotate(15deg);
+    animation-delay: -3s; /* Offset animation */
+}
+
+.message.skin-dollarbill .message-author {
+    color: #c9df8a; /* Light green for author */
+    position: relative;
+    z-index: 1;
+}
+
+.message.skin-dollarbill .like-button {
+    color: #c9df8a;
+    z-index: 3;
+}
+.message.skin-dollarbill .like-button.liked {
+    color: #ffd700; /* Gold for liked */
+}
+.message.skin-dollarbill .like-count {
+    color: #c9df8a;
+    position: relative;
+    z-index: 3;
+}
+
+@keyframes wave-dollar-anim {
+    0% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
+    25% { transform: translateX(5px) translateY(-3px) rotate(-10deg) skewX(5deg); }
+    50% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
+    75% { transform: translateX(-5px) translateY(3px) rotate(-20deg) skewX(-5deg); }
+    100% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
+}
+
+/* --- Money Rain Event Effect --- */
+#money-rain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 201; /* Higher than coin shower from money drop */
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+body.money-rain-active #money-rain-overlay {
+    display: block !important;
+    opacity: 1;
+    animation: money-rain-fade-out 10s linear forwards;
+}
+
+.money-rain-item {
+    position: absolute;
+    top: -60px; /* Start above screen */
+    font-size: 24px; /* Adjust size as needed */
+    animation-name: fall-money-item;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    opacity: 0.9;
+}
+
+.money-rain-item.coin-item {
+    /* Coin emoji: 💰 or 🪙 */
+    content: '💰';
+    color: gold;
+    text-shadow: 1px 1px 2px darkgoldenrod;
+}
+
+.money-rain-item.bill-item {
+    /* Dollar bill emoji: 💵 */
+    content: '💵';
+    color: #38761d; /* Green */
+    text-shadow: 1px 1px 2px #274e13;
+}
+
+@keyframes fall-money-item {
+    0% {
+        transform: translateY(0) rotateZ(0deg) rotateY(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) rotateZ(180deg) rotateY(180deg);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotateZ(360deg) rotateY(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes money-rain-fade-out {
+    0% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* --- Game Promo Modal --- */
+#game-promo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 300; /* Ensure it's on top of everything */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#game-promo-modal.hidden {
+    opacity: 0;
+    pointer-events: none; /* Make it non-interactive when hidden */
+}
+
+#game-promo-content {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 450px;
+}
+
+#game-promo-content p {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+#game-promo-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#game-promo-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#promo-yes-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+#promo-yes-button:hover {
+    background-color: #45a049;
+}
+
+#promo-no-button {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+#promo-no-button:hover {
+    background-color: #e53935;
+}
+
+#game-promo-buttons button:active {
+    transform: translateY(1px);
+}
