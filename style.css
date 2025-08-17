@@ -1,64 +1,64 @@
 body {
-    font-family: sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #ffffff;
+    color: #000000;
     overflow: hidden; /* Hide scrollbars during effects */
-    transition: filter 0.5s ease-in-out; /* For freeze effect */
 }
 
 #app {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-color: #fff;
 }
 
 header {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-bottom: 1px solid #dcdcdc;
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    font-weight: 600;
 }
 
 #user-info {
     font-size: 0.9em;
+    display: flex;
+    align-items: center;
+}
+
+#change-name-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-left: 8px;
+    padding: 2px;
+    line-height: 1;
 }
 
 #main-content {
     display: flex;
     flex-grow: 1;
-    padding: 20px;
-    gap: 20px;
     overflow: hidden; /* Prevent content overflow */
 }
 
-#left-panel {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Spacing between update banner and chat */
-}
-
 #chat-container {
-    /* flex: 3; */ /* Removed as #left-panel now controls this flex */
-    flex-grow: 1; /* Chat container should take remaining space in left panel */
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Contained scrolling */
 }
 
-#chat-container h2, #shop-container h2 {
+#chat-container h2 {
     margin: 0;
     padding: 15px;
     background-color: #eee;
@@ -69,96 +69,139 @@ header h1 {
 #chat-messages {
     flex-grow: 1;
     overflow-y: auto;
-    padding: 15px;
+    padding: 15px 10px;
     display: flex;
-    flex-direction: column; /* Stack messages */
+    flex-direction: column;
+    gap: 8px; /* Spacing between messages */
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-wrapper.own-message {
+    align-items: flex-end;
+}
+
+.message-wrapper:not(.own-message) {
+    align-items: flex-start;
 }
 
 .message {
-    margin-bottom: 10px;
     padding: 8px 12px;
-    border-radius: 15px;
-    max-width: 80%;
+    border-radius: 18px;
+    max-width: 70%;
     word-wrap: break-word;
-    background-color: #e1f5fe; /* Light blue for messages */
-    align-self: flex-start; /* Default alignment */
+    background-color: #e5e5ea;
+    color: #000;
+    line-height: 1.4;
+    position: relative;
 }
 
 .message.own-message {
-    background-color: #c8e6c9; /* Light green for own messages */
-    align-self: flex-end; /* Align own messages to the right */
+    background-color: #007aff;
+    color: white;
 }
 
 .message-author {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 0.8em;
-    color: #555;
+    color: #6d6d72;
     margin-bottom: 3px;
+    margin-left: 12px;
+}
+
+.message-wrapper.own-message .message-author {
+    display: none;
 }
 
 .message-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    position: relative; /* Ensure z-index works for children */
-    z-index: 2; /* Keep content above pseudo-elements */
+    gap: 8px; /* Space between text and like button */
 }
 
 .like-button {
     cursor: pointer;
     background: none;
     border: none;
-    font-size: 1.1em; /* Slightly larger for emoji */
-    padding: 0 5px; /* Adjust padding */
-    color: #888;
+    font-size: 1.1em;
+    padding: 0;
+    color: rgba(0,0,0,0.5);
     transition: color 0.2s;
-    position: relative; /* Ensure z-index works */
-    z-index: 3; /* Keep above other content */
-    line-height: 1; /* Prevent extra space */
+    line-height: 1;
+}
+
+.own-message .like-button {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .like-button.liked {
-    color: #e91e63; /* Pink when liked */
+    color: #e91e63;
+}
+
+.own-message .like-button.liked {
+    color: #ff3b30;
 }
 
 .like-button:hover:not(:disabled) {
-    color: #555;
+    color: #000;
+}
+
+.own-message .like-button:hover:not(:disabled) {
+    color: #fff;
+}
+
+.like-button:disabled {
+    cursor: default;
 }
 
 .like-count {
     font-size: 0.8em;
-    color: #777;
-    margin-left: 3px; /* Adjust spacing */
-    position: relative; /* Ensure z-index works */
-    z-index: 3; /* Keep above other content */
+    color: #6d6d72;
+}
+
+.own-message .like-count {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 #chat-input-area {
     display: flex;
-    padding: 15px;
-    border-top: 1px solid #ddd;
+    padding: 10px;
+    border-top: 1px solid #dcdcdc;
+    background-color: #f5f5f7;
+    align-items: center;
 }
 
 #chat-input {
     flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 8px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 18px;
     margin-right: 10px;
+    background-color: #fff;
+    font-size: 1em;
+}
+
+#chat-input:focus {
+    outline: none;
+    border-color: #007aff;
 }
 
 #send-button {
-    padding: 10px 15px;
-    background-color: #4CAF50;
+    padding: 8px 15px;
+    background-color: #007aff;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 18px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-weight: 600;
 }
 
 #send-button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 #chat-input:disabled, #send-button:disabled {
@@ -167,7 +210,7 @@ header h1 {
 }
 
 #send-button:disabled:hover {
-    background-color: #4CAF50; /* Prevent hover effect when disabled */
+    background-color: #007aff;
 }
 
 #shop-container {
@@ -1019,10 +1062,10 @@ body.shark-active .shark-water {
 
 /* System message styling */
 .message.system-message {
+    font-size: 0.8em;
     font-style: italic;
-    color: #666;
-    background-color: #f5f5f5; 
-    border: 1px dashed #ccc;
+    color: #8e8e93;
+    background-color: transparent;
     align-self: center; 
     max-width: 90%;
     text-align: center;
@@ -1038,576 +1081,91 @@ body.shark-active .shark-water {
     display: none !important;
 }
 
-#event-overlay {
+/* --- Name Change Modal --- */
+#change-name-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 100; 
-    pointer-events: none; 
-}
-
-/* --- Shooting Star Effect --- */
-#shooting-star-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 107; /* Above other effects but below UI potentially */
-    pointer-events: none;
-    overflow: hidden;
-    background: linear-gradient(to bottom right, rgba(0, 0, 10, 0.3), rgba(0, 0, 30, 0.5)); /* Darker background */
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-body.shooting-star-active #shooting-star-overlay {
-    display: block !important;
-    opacity: 1;
-    animation: shooting-star-fade-out 10s linear forwards; /* Fade out overlay itself */
-}
-
-.shooting-star {
-    position: absolute;
-    opacity: 0;
-}
-
-@keyframes shoot-emoji {
-    0% {
-        opacity: 1;
-        transform: translateX(0) translateY(0) rotate(45deg) scale(1);
-    }
-    80% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(150vw) translateY(150vh) rotate(45deg) scale(0.5);
-    }
-}
-
-@keyframes shooting-star-fade-out {
-     0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* --- Raining Event --- */
-#raining-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 108; /* Ensure it's high enough */
-    pointer-events: none;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-body.raining-active #raining-overlay {
-    display: block !important;
-    opacity: 1;
-}
-
-#rain-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.raindrop {
-    position: absolute;
-    bottom: 100%; /* Start above the screen */
-    width: 1px;
-    height: 60px; /* Length of the rain streak */
-    background: linear-gradient(to bottom, rgba(173, 216, 230, 0), rgba(173, 216, 230, 0.7)); /* Light blue, transparent at top */
-    animation-name: fall-rain;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    pointer-events: none;
-}
-
-#rising-water {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%; /* Starts at 0 height */
-    background: linear-gradient(to top, rgba(0, 120, 255, 0.6), rgba(0, 180, 255, 0.4));
-    opacity: 0;
-    pointer-events: none;
-}
-
-body.raining-active #rising-water {
-    animation: rise-and-fall-water 20s linear forwards;
-    opacity: 1; /* Make visible when active */
-}
-
-@keyframes fall-rain {
-    to {
-        transform: translateY(100vh); /* Fall down the full height */
-    }
-}
-
-@keyframes rise-and-fall-water {
-    0% { height: 0%; opacity: 0.8;}
-    80% { height: 50%; opacity: 0.8;} /* Rise to 50% over 16s (80% of 20s) */
-    90% { height: 50%; opacity: 0.8;} /* Hold for 2s */
-    100% { height: 0%; opacity: 0; } /* Fall back down in 2s */
-}
-
-/* --- Crate Reward Overlay --- */
-#crate-reward-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 200;
-    transition: opacity 0.3s ease;
+    z-index: 300;
 }
 
-#crate-reward-container {
+#change-name-content {
     background-color: white;
-    padding: 30px;
-    border-radius: 15px;
+    padding: 20px 25px;
+    border-radius: 14px;
     text-align: center;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-    animation: reward-shine 2s ease infinite;
-    position: relative;
-    overflow: hidden;
-}
-
-#crate-reward-container::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
-    transform: rotate(45deg);
-    animation: reward-shine-sweep 2s ease-in-out infinite;
-    z-index: -1;
-}
-
-#crate-reward-container h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-#crate-reward-item {
-    font-size: 32px;
-    margin: 15px 0;
-    padding: 20px;
-    background-color: #f8f8f8;
-    border-radius: 10px;
-    border: 2px dashed gold;
-}
-
-.reward-coins {
-    color: gold;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-}
-
-.reward-skin {
-    color: #8B4513;
-}
-
-.reward-event {
-    color: #3CB371;
-}
-
-.reward-rare {
-    color: #9932CC;
-    animation: pulse-reward 1.5s ease infinite;
-}
-
-@keyframes reward-shine {
-    0%, 100% {
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
-    }
-}
-
-@keyframes reward-shine-sweep {
-    0% {
-        transform: rotate(45deg) translateX(-100%);
-    }
-    100% {
-        transform: rotate(45deg) translateX(100%);
-    }
-}
-
-@keyframes pulse-reward {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-}
-
-/* Crate Shop Placeholder */
-#shop-crates p.no-crates-message {
-    font-style: italic;
-    color: #888;
-    text-align: center;
-    padding: 20px 15px;
-    display: none; /* Hidden by default, shown by JS */
-}
-
-/* Ensure original crate shop item text is hidden if no crates are specifically added */
-#shop-crates > p:first-of-type {
-    display: block; /* Show the "Try your luck..." message */
-}
-
-/* Hide the specific farm crate item */
-#shop-crates .shop-item.crate-item {
-    display: none;
-}
-
-/* --- Lava Effect --- */
-#lava-overlay {
-    position: fixed;
-    bottom: 0; /* Start from bottom */
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 109; /* Adjust z-index as needed */
-    pointer-events: none;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-.lava-liquid {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%; /* Start at 0 height */
-    background: linear-gradient(to top, rgba(255, 111, 0, 0.9), rgba(255, 50, 0, 0.8));
-    box-shadow: 0 -10px 20px rgba(255, 50, 0, 0.5);
-}
-
-.lava-bubbles {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 0, 0.2) 3px, transparent 4px),
-        radial-gradient(circle at 70% 90%, rgba(255, 255, 0, 0.2) 2px, transparent 3px),
-        radial-gradient(circle at 40% 70%, rgba(255, 255, 0, 0.2) 4px, transparent 5px);
-    background-size: 50px 50px;
-    animation: lava-overlay-bubbles 5s linear infinite;
-    opacity: 0;
-    pointer-events: none;
-}
-
-body.lava-active #lava-overlay {
-    display: block !important;
-    opacity: 1;
-}
-
-body.lava-active .lava-liquid {
-    animation: lava-rise-anim 10s linear forwards;
-}
-body.lava-active .lava-bubbles {
-     animation: lava-rise-anim 10s linear forwards, lava-overlay-bubbles 5s linear infinite;
-     opacity: 0.5;
-}
-
-@keyframes lava-rise-anim {
-    0% { height: 0%; opacity: 0.8; }
-    80% { height: 80%; opacity: 0.9; }
-    90% { height: 80%; opacity: 0.9; }
-    100% { height: 0%; opacity: 0; }
-}
-
-@keyframes lava-overlay-bubbles {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-50px); }
-}
-
-/* --- Gold Skin (Renamed from Coin Skin) --- */
-.message.skin-gold {
-    background: radial-gradient(circle, #ffd700 20%, #f0c000 80%);
-    color: #4a3000; /* Dark brown for text */
-    border: 2px solid #daa520; /* Goldenrod border */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    position: relative;
-    overflow: visible;
-    padding: 12px;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
-}
-
-.message.skin-gold::before {
-    content: '💰🪙💲'; /* Coin and money bag emojis */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 18px;
-    text-align: center;
-    opacity: 0.15;
-    pointer-events: none;
-    z-index: 0;
-    animation: coin-shine-anim 5s linear infinite alternate; /* Re-using coin-shine-anim for gold */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    line-height: 1.2;
-}
-
-.message.skin-gold .message-author {
-    color: #805500;
-    position: relative;
-    z-index: 1;
-}
-
-.message.skin-gold .like-button {
-    color: #805500;
-    z-index: 3;
-}
-.message.skin-gold .like-button.liked {
-    color: #ff4500; /* Orange-red for liked */
-}
-.message.skin-gold .like-count {
-    color: #805500;
-    position: relative;
-    z-index: 3;
-}
-
-@keyframes coin-shine-anim { /* Used by Gold Skin */
-    0% { opacity: 0.1; transform: scale(1) rotate(0deg); }
-    50% { opacity: 0.25; transform: scale(1.05) rotate(5deg); }
-    100% { opacity: 0.1; transform: scale(1) rotate(0deg); }
-}
-
-/* --- Dollar Bill Skin --- */
-.message.skin-dollarbill {
-    background: linear-gradient(135deg, #38761d 0%, #6aa84f 50%, #38761d 100%);
-    color: #f0fff0; /* Honeydew for text */
-    border: 2px solid #274e13; /* Darker green border */
-    box-shadow: 0 0 10px rgba(0, 100, 0, 0.5);
-    position: relative;
-    overflow: hidden; /* Clip the waving bills */
-    padding: 12px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.message.skin-dollarbill::before,
-.message.skin-dollarbill::after {
-    content: '💵';
-    position: absolute;
-    font-size: 36px; 
-    opacity: 0.3; 
-    z-index: 0;
-    animation: wave-dollar-anim 6s linear infinite;
-}
-
-.message.skin-dollarbill::before {
-    top: 10%;
-    left: -10%;
-    transform: rotate(-15deg);
-}
-
-.message.skin-dollarbill::after {
-    bottom: 10%;
-    right: -10%;
-    transform: rotate(15deg);
-    animation-delay: -3s; /* Offset animation */
-}
-
-.message.skin-dollarbill .message-author {
-    color: #c9df8a; /* Light green for author */
-    position: relative;
-    z-index: 1;
-}
-
-.message.skin-dollarbill .like-button {
-    color: #c9df8a;
-    z-index: 3;
-}
-.message.skin-dollarbill .like-button.liked {
-    color: #ffd700; /* Gold for liked */
-}
-.message.skin-dollarbill .like-count {
-    color: #c9df8a;
-    position: relative;
-    z-index: 3;
-}
-
-@keyframes wave-dollar-anim {
-    0% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
-    25% { transform: translateX(5px) translateY(-3px) rotate(-10deg) skewX(5deg); }
-    50% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
-    75% { transform: translateX(-5px) translateY(3px) rotate(-20deg) skewX(-5deg); }
-    100% { transform: translateX(0) translateY(0) rotate(-15deg) skewX(0deg); }
-}
-
-/* --- Money Rain Event Effect --- */
-#money-rain-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 201; /* Higher than coin shower from money drop */
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-body.money-rain-active #money-rain-overlay {
-    display: block !important;
-    opacity: 1;
-    animation: money-rain-fade-out 10s linear forwards;
-}
-
-.money-rain-item {
-    position: absolute;
-    top: -60px; /* Start above screen */
-    font-size: 24px; /* Adjust size as needed */
-    animation-name: fall-money-item;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-    opacity: 0.9;
-}
-
-.money-rain-item.coin-item {
-    /* Coin emoji: 💰 or 🪙 */
-    content: '💰';
-    color: gold;
-    text-shadow: 1px 1px 2px darkgoldenrod;
-}
-
-.money-rain-item.bill-item {
-    /* Dollar bill emoji: 💵 */
-    content: '💵';
-    color: #38761d; /* Green */
-    text-shadow: 1px 1px 2px #274e13;
-}
-
-@keyframes fall-money-item {
-    0% {
-        transform: translateY(0) rotateZ(0deg) rotateY(0deg);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(50vh) rotateZ(180deg) rotateY(180deg);
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(110vh) rotateZ(360deg) rotateY(360deg);
-        opacity: 0;
-    }
-}
-
-@keyframes money-rain-fade-out {
-    0% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* --- Game Promo Modal --- */
-#game-promo-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 300; /* Ensure it's on top of everything */
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#game-promo-modal.hidden {
-    opacity: 0;
-    pointer-events: none; /* Make it non-interactive when hidden */
-}
-
-#game-promo-content {
-    background-color: white;
-    padding: 25px 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     width: 90%;
-    max-width: 450px;
+    max-width: 320px;
 }
 
-#game-promo-content p {
-    font-size: 1.1em;
-    color: #333;
-    margin-bottom: 20px;
-    line-height: 1.4;
+#change-name-content h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    font-weight: 600;
 }
 
-#game-promo-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+#change-name-content p {
+    font-size: 0.9em;
+    color: #6d6d72;
+    margin-bottom: 15px;
 }
 
-#game-promo-buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
+#new-name-input {
+    width: calc(100% - 24px);
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
     font-size: 1em;
+    margin-bottom: 15px;
+}
+
+#change-name-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#change-name-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: background-color 0.2s;
 }
 
-#promo-yes-button {
-    background-color: #4CAF50; /* Green */
+#save-name-button {
+    background-color: #007aff;
     color: white;
 }
-
-#promo-yes-button:hover {
-    background-color: #45a049;
+#save-name-button:hover {
+    background-color: #0056b3;
+}
+#save-name-button:disabled {
+    background-color: #a9a9a9;
+    cursor: not-allowed;
 }
 
-#promo-no-button {
-    background-color: #f44336; /* Red */
-    color: white;
+#cancel-name-button {
+    background-color: #e5e5ea;
+    color: #007aff;
+}
+#cancel-name-button:hover {
+    background-color: #dcdce0;
 }
 
-#promo-no-button:hover {
-    background-color: #e53935;
-}
-
-#game-promo-buttons button:active {
-    transform: translateY(1px);
+#name-cooldown-message {
+    font-size: 0.8em;
+    color: #ff3b30; /* Apple red for errors */
+    margin-top: 10px;
+    margin-bottom: 0;
 }

@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Chatblox</title>
+    <title>Chat</title>
     <link rel="stylesheet" href="style.css">
     <script type="importmap">
       {
@@ -11,197 +11,35 @@
 <body>
     <div id="app">
         <header>
-            <h1>Chatblox</h1>
+            <h1>Chat</h1>
             <div id="user-info">
-                Welcome, <span id="username">User</span>!
-                Coins: <span id="coin-count">0</span>
+                <span id="username">User</span>
+                <button id="change-name-btn" title="Change Name">✏️</button>
             </div>
         </header>
 
         <div id="main-content">
-            <div id="left-panel"> 
-                <div id="chat-container">
-                    <h2>Chat</h2>
-                    <div id="chat-messages">
-                        <!-- Messages will appear here -->
-                    </div>
-                    <div id="chat-input-area">
-                        <input type="text" id="chat-input" placeholder="Type your message..." disabled>
-                        <button id="send-button" disabled>Send</button>
-                    </div>
+            <div id="chat-container">
+                <div id="chat-messages">
+                    <!-- Messages will appear here -->
                 </div>
-            </div>
-
-            <div id="shop-container">
-                <h2>Shop</h2>
-                <div id="shop-tabs">
-                    <button id="show-events-tab" class="shop-tab active">Events</button>
-                    <button id="show-skins-tab" class="shop-tab">Skins</button>
-                    <button id="show-crates-tab" class="shop-tab">Crates</button>
-                </div>
-
-                <div id="shop-events" class="shop-section">
-                     <p>Spend your coins on global events!</p>
-                    <div class="shop-item">
-                        <span>Money Drop (Cost: 1000 Coins)</span>
-                        <button id="buy-money-drop" data-cost="1000" data-event="moneyDrop">Buy Drop</button>
-                    </div>
-                    <div class="shop-item">
-                        <span>Nuke Event (Cost: 750 Coins)</span>
-                        <button id="buy-nuke" data-cost="750" data-event="nuke">Buy Nuke</button>
-                    </div>
-                     <div class="shop-item">
-                        <span>Freeze Time Event (Cost: 750 Coins)</span>
-                        <button id="buy-freeze" data-cost="750" data-event="freeze">Buy Freeze</button>
-                    </div>
-                    <div class="shop-item">
-                        <span>Acid Event (Cost: 500 Coins)</span>
-                        <button id="buy-acid" data-cost="500" data-event="acid">Buy Acid</button>
-                    </div>
-                    <div class="shop-item">
-                        <span>Glitch Event (Cost: 500 Coins)</span>
-                        <button id="buy-glitch" data-cost="500" data-event="glitch">Buy Glitch</button>
-                    </div>
-                     <div class="shop-item">
-                        <span>Shark Attack Event (Cost: 200 Coins)</span>
-                        <button id="buy-shark" data-cost="200" data-event="sharkAttack">Buy Sharks</button>
-                    </div>
-                     <div class="shop-item">
-                        <span>Raining Event (Cost: 200 Coins)</span>
-                        <button id="buy-raining" data-cost="200" data-event="raining">Buy Rain</button>
-                    </div>
-                    <div class="shop-item">
-                        <span>Shooting Star Event (Cost: 100 Coins)</span> 
-                        <button id="buy-shooting-star" data-cost="100" data-event="shootingStar">Buy Stars</button> 
-                    </div>
-                    <div class="shop-item">
-                        <span>Flood Event (Cost: 100 Coins)</span>
-                        <button id="buy-flood" data-cost="100" data-event="flood">Buy Flood</button>
-                    </div>
-                    <div class="shop-item">
-                        <span>Lava Event (Cost: 100 Coins)</span>
-                        <button id="buy-lava" data-cost="100" data-event="lava">Buy Lava</button>
-                    </div>
-                </div>
-
-                <div id="shop-skins" class="shop-section hidden">
-                     <p>Customize your chat messages!</p>
-                     <div class="shop-item skin-item" data-skin-id="default">
-                        <span>Default Skin</span>
-                        <button class="equip-skin-button" data-skin-id="default">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="acid">
-                        <span>Acid Skin (Cost: 250 Coins)</span>
-                        <button class="buy-skin-button" data-cost="250" data-skin-id="acid">Buy</button>
-                        <button class="equip-skin-button" data-skin-id="acid" style="display: none;">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="rainbow">
-                        <span>Rainbow Skin (Cost: 250 Coins)</span>
-                        <button class="buy-skin-button" data-cost="250" data-skin-id="rainbow">Buy</button>
-                        <button class="equip-skin-button" data-skin-id="rainbow" style="display: none;">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="starry">
-                        <span>Starry Skin (Cost: 250 Coins)</span>
-                        <button class="buy-skin-button" data-cost="250" data-skin-id="starry">Buy</button>
-                        <button class="equip-skin-button" data-skin-id="starry" style="display: none;">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="floody">
-                        <span>Floody Skin (Cost: 250 Coins)</span>
-                        <button class="buy-skin-button" data-cost="250" data-skin-id="floody">Buy</button>
-                        <button class="equip-skin-button" data-skin-id="floody" style="display: none;">Equip</button>
-                    </div>
-                     <div class="shop-item skin-item" data-skin-id="lava">
-                        <span>Lava Skin (Cost: 250 Coins)</span>
-                        <button class="buy-skin-button" data-cost="250" data-skin-id="lava">Buy</button>
-                        <button class="equip-skin-button" data-skin-id="lava" style="display: none;">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="gold">
-                        <span>Gold Skin (Cost: 0 Coins - Crate Only)</span>
-                        <button class="equip-skin-button" data-skin-id="gold" style="display: none;">Equip</button>
-                    </div>
-                    <div class="shop-item skin-item" data-skin-id="dollarbill">
-                        <span>Dollar Bill Skin (Cost: 0 Coins - Crate Only)</span>
-                        <button class="equip-skin-button" data-skin-id="dollarbill" style="display: none;">Equip</button>
-                    </div>
-                </div>
-
-                <div id="shop-crates" class="shop-section hidden">
-                    <p>Try your luck with limited edition crates!</p>
-                    <p class="no-crates-message">No Limited crates available! Come back during an event!</p>
-                    <div class="shop-item crate-item" data-crate-id="moneyCrate">
-                        <span>[LIMITED!] Money Crate (Cost: 20 Coins)</span>
-                        <button id="buy-money-crate" data-cost="20" data-crate="moneyCrate">Buy Crate</button>
-                    </div>
+                <div id="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Message..." disabled>
+                    <button id="send-button" disabled>Send</button>
                 </div>
             </div>
         </div>
 
-        <div id="event-overlay" class="hidden"></div>
-        <div id="nuke-flash" class="hidden"></div>
-        <div id="nuke-explosion" class="hidden">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-                <circle cx="50" cy="50" r="5" fill="orange"/>
-            </svg>
-        </div>
-        <div id="nuke-smoke" class="hidden"></div>
-        <div id="flood-water" class="hidden"></div>
-        <div id="freeze-overlay" class="hidden"></div>
-        <div id="acid-overlay" class="hidden">
-            <div class="acid-liquid"></div>
-            <div class="acid-scratches"></div>
-        </div>
-        <div id="shark-attack-overlay" class="hidden">
-            <div class="shark-water"></div>
-            <svg class="shark shark1" viewBox="0 0 200 100">
-              <path d="M195 50 C180 40, 150 35, 130 40 L110 45 C80 55, 40 55, 10 45 L5 42 C15 50, 25 58, 5 60 L10 65 C40 65, 80 65, 110 70 L130 75 C150 80, 180 75, 195 65 Z" fill="#5a6a7a"/>
-              <path d="M140 40 C150 30, 160 35, 155 45 L140 40 Z" fill="#778899" />
-              <circle cx="180" cy="53" r="2" fill="black"/>
-            </svg>
-             <svg class="shark shark2" viewBox="0 0 200 100">
-              <path d="M195 50 C180 40, 150 35, 130 40 L110 45 C80 55, 40 55, 10 45 L5 42 C15 50, 25 58, 5 60 L10 65 C40 65, 80 65, 110 70 L130 75 C150 80, 180 75, 195 65 Z" fill="#5a6a7a"/>
-              <path d="M140 40 C150 30, 160 35, 155 45 L140 40 Z" fill="#778899" />
-              <circle cx="180" cy="53" r="2" fill="black"/>
-            </svg>
-            <svg class="shark shark3" viewBox="0 0 200 100">
-              <path d="M195 50 C180 40, 150 35, 130 40 L110 45 C80 55, 40 55, 10 45 L5 42 C15 50, 25 58, 5 60 L10 65 C40 65, 80 65, 110 70 L130 75 C150 80, 180 75, 195 65 Z" fill="#5a6a7a"/>
-              <path d="M140 40 C150 30, 160 35, 155 45 L140 40 Z" fill="#778899" />
-              <circle cx="180" cy="53" r="2" fill="black"/>
-            </svg>
-        </div>
-
-        <div id="shooting-star-overlay" class="hidden">
-             <!-- Shooting stars will be added here by JS -->
-        </div>
-         <div id="raining-overlay" class="hidden">
-            <div id="rain-container"></div>
-            <div id="rising-water"></div>
-        </div>
-
-        <div id="crate-reward-overlay" class="hidden">
-            <div id="crate-reward-container">
-                <h2>You received:</h2>
-                <div id="crate-reward-item"></div>
-            </div>
-        </div>
-
-        <div id="barn-run-overlay" class="hidden"></div>
-
-        <div id="lava-overlay" class="hidden">
-            <div class="lava-liquid"></div>
-            <div class="lava-bubbles"></div>
-        </div>
-
-        <div id="money-rain-overlay" class="hidden">
-            <!-- Coins and dollar bills will be added here by JS -->
-        </div>
-
-        <div id="game-promo-modal" class="hidden">
-            <div id="game-promo-content">
-                <p>Hey! Would you like to try out my new game called Plants RNG?</p>
-                <div id="game-promo-buttons">
-                    <button id="promo-yes-button">yes!</button>
-                    <button id="promo-no-button">no</button>
+        <div id="change-name-modal" class="hidden">
+            <div id="change-name-content">
+                <h2>Change Display Name</h2>
+                <p>You can change your name once every 24 hours.</p>
+                <input type="text" id="new-name-input" placeholder="Enter new name" maxlength="20">
+                <div id="change-name-buttons">
+                    <button id="save-name-button">Save</button>
+                    <button id="cancel-name-button">Cancel</button>
                 </div>
+                 <p id="name-cooldown-message" class="hidden"></p>
             </div>
         </div>
 
